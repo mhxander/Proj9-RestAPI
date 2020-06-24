@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const Course = require('../models').courses;
-const User = require('../models').users;
+const Course = require('../models').Course;
+const User = require('../models').User;
 
 //pull in the validation rule set
 const { courseRules, validate } = require('./expressValidator');
@@ -24,11 +24,11 @@ function asyncHandler(callback) {
  * Should return: id, title, description, estimatedTime, materialsNeeded, and the user
  */
 router.get('/', asyncHandler(async (req, res) => {
-    const courses = await Course.findAll({
-      attributes: ['id', 'title', 'description', 'estimatedTime', 'materialsNeeded', 'userId'],
-      include: [{ model: User, attributes: ['firstName', 'lastName', 'emailAddress'] }]
-    });
-    res.json({ courses });
+  const courses = await Course.findAll({
+    attributes: ['id', 'title', 'description', 'estimatedTime', 'materialsNeeded', 'userId'],
+    include: [{ model: User, attributes: ['firstName', 'lastName', 'emailAddress'] }]
+  });
+  res.json({ courses });
   })
 );
 
